@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+     $(document).ready(function(){
+            $('#country').change(function(){
+                var countid=$('#country').val()
+            $.ajax({
+                url:"{{url_for('getstate')}}",
+                data:{'co':countid},
+                success:function(data)
+                {
+                    $('#state').html(data)
+                }
+            })
+        })
+        $('#username').change(function(){
+                var user=$('#username').val()
+            $.ajax({
+                url:"{{url_for('checkuser')}}",
+                data:{'user':user},
+                success:function(data){
+                    if(data.valid=='user already exist'){
+                        alert('username already exist')
+                        $('user').val('')
+                    }
+                }
+                
+            })
+        })
+        })
+    </script>
+   
+<body>
+    <form action="http://127.0.0.1:5000/update_action" method="post">
+        <label for="country">country</label>
+        <select name="country" id="country">
+            <option value="">--select--</option>
+            {% for i in n %}
+            <option value="{{i.id}}">{{i.countid}}</option>
+            {% endfor %}
+        </select>  
+        <br>
+        <br>
+        <label for="state">state</label>
+        <select name="state" id="state">
+            <option value="">--select--</option>
+        </select>  
+        <br> 
+        <br>
+        <label for="place">place</label>
+        <input type="text" name="place">
+        <br>
+        <br>
+        <input type="submit" name="submit">
+    
+    </form>
+   
+</body>
+</html>
